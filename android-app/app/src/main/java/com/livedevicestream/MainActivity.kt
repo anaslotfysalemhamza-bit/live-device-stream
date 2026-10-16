@@ -110,8 +110,8 @@ class MainActivity : AppCompatActivity(), SignalingListener {
     }
 
     private fun setupDefaultUi() {
-        // Leave empty - user will enter their deployed server URL
-        binding.etServerUrl.setText("")
+        // Default to production server
+        binding.etServerUrl.setText("wss://livedevicestream3-jmoa4dzy.b4a.run")
         displaySessionCredentials()
     }
 
