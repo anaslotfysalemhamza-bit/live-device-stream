@@ -23,7 +23,7 @@ function getLocalIpAddress() {
   return '127.0.0.1';
 }
 
-const PORT = parseInt(process.env.PORT || '8443', 10);
+const PORT = parseInt(process.env.PORT || '8080', 10);
 const HOST = process.env.HOST || '0.0.0.0';
 const SSL_KEY_PATH = process.env.SSL_KEY || path.join(__dirname, '../certs/key.pem');
 const SSL_CERT_PATH = process.env.SSL_CERT || path.join(__dirname, '../certs/cert.pem');
