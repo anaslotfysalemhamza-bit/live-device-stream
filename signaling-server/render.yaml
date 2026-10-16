@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: live-device-stream-signaling
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: HOST
+        value: 0.0.0.0
+      - key: NODE_ENV
+        value: production

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Device Stream — Receiver Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'><path d='M4 6h16v10H4z'/><path d='M10 18h4v2h-4z'/></svg>">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Live Device Stream</h1>
+          <span class="subtext">Android 12 Authorized Receiver</span>
+        </div>
+      </div>
+      <div class="header-status">
+        <div id="connectionBadge" class="status-badge disconnected">
+          <span class="dot"></span>
+          <span id="connectionBadgeText">Disconnected</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="dashboard-grid">
+      <!-- Session Authentication & Connection Panel -->
+      <section class="card session-panel">
+        <div class="card-header">
+          <h2>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Session Authentication
+          </h2>
+          <span class="tag">DTLS-SRTP Protected</span>
+        </div>
+        <form id="sessionForm" class="session-form" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="serverUrl">Signaling Server URL</label>
+              <input type="text" id="serverUrl" placeholder="ws://localhost:8443" autocomplete="off" required>
+              <span class="field-hint">Use <code>ws://localhost:8443</code> on this computer. (Do not use 10.0.2.2).</span>
+            </div>
+            <div class="form-group flex-1">
+              <label for="roomId">Room ID</label>
+              <input type="text" id="roomId" value="ROOM-LIVE" placeholder="ROOM-LIVE" autocomplete="off" required>
+            </div>
+            <div class="form-group flex-1">
+              <label for="sessionToken">Pairing Code / Token</label>
+              <div class="input-password-wrapper">
+                <input type="text" id="sessionToken" value="LIVE-1234" placeholder="LIVE-1234" autocomplete="off" required>
+                <button type="button" id="btnToggleToken" class="btn-icon" title="Toggle visibility">👁</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" id="btnConnect" class="btn btn-primary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              Connect to Device
+            </button>
+            <button type="button" id="btnDisconnect" class="btn btn-danger" disabled>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+              Disconnect
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Active Streams Status Bar -->
+      <section class="card stream-status-bar">
+        <div class="stream-indicator" id="indCamera">
+          <div class="indicator-icon">📷</div>
+          <div class="indicator-info">
+            <span class="label">Camera</span>
+            <span class="state" id="indCameraState">Inactive</span>
+          </div>
+        </div>
+        <div class="stream-indicator" id="indScreen">
+          <div class="indicator-icon">🖥️</div>
+          <div class="indicator-info">
+            <span class="label">Screen Share</span>
+            <span class="state" id="indScreenState">Inactive</span>
+          </div>
+        </div>
+        <div class="stream-indicator" id="indAudio">
+          <div class="indicator-icon">🎙️</div>
+          <div class="indicator-info">
+            <span class="label">Microphone</span>
+            <span class="state" id="indAudioState">Inactive</span>
+          </div>
+        </div>
+        <div class="stream-indicator" id="indPeer">
+          <div class="indicator-icon">📱</div>
+          <div class="indicator-info">
+            <span class="label">Android Phone</span>
+            <span class="state" id="indPeerState">Offline</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Media Streams Viewport -->
+      <div class="streams-container">
+        <!-- Screen Share Panel -->
+        <section class="card stream-card main-viewport">
+          <div class="stream-card-header">
+            <h3>Live Screen Share</h3>
+            <div class="card-controls">
+              <button id="btnFullscreenScreen" class="btn-sm" title="Fullscreen">⛶ Fullscreen</button>
+            </div>
+          </div>
+          <div class="video-container" id="screenContainer">
+            <video id="screenVideo" autoplay playsinline muted></video>
+            <div class="placeholder-overlay" id="screenPlaceholder">
+              <div class="placeholder-content">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                <p class="title">Screen Stream Awaiting Authorization</p>
+                <p class="subtitle">Grant MediaProjection consent on the Android phone to view live screen.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Camera & Audio Panel -->
+        <section class="card stream-card side-viewport">
+          <div class="stream-card-header">
+            <h3>Camera Stream</h3>
+            <div class="card-controls">
+              <button id="btnFullscreenCamera" class="btn-sm" title="Fullscreen">⛶ Fullscreen</button>
+            </div>
+          </div>
+          <div class="video-container camera-container" id="cameraContainer">
+            <video id="cameraVideo" autoplay playsinline muted></video>
+            <div class="placeholder-overlay" id="cameraPlaceholder">
+              <div class="placeholder-content">
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+                <p class="title">Camera Inactive</p>
+                <p class="subtitle">Stream will start when enabled in the Android app.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audio Stream Controls -->
+          <div class="audio-controls-panel">
+            <div class="audio-header">
+              <span class="label">Microphone Audio Output</span>
+              <button id="btnMuteAudio" class="btn-sm" disabled>Mute</button>
+            </div>
+            <audio id="remoteAudio" autoplay></audio>
+            <div class="audio-visualizer-bar">
+              <div id="audioLevelMeter" class="level-fill" style="width: 0%"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Diagnostic & Event Log -->
+      <section class="card log-panel">
+        <div class="card-header">
+          <h2>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 17 10 11 4 5"/>
+              <line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+            Session Diagnostics & Signaling Log
+          </h2>
+          <button id="btnClearLogs" class="btn-sm">Clear Logs</button>
+        </div>
+        <div id="logOutput" class="log-output" role="log" aria-live="polite">
+          <div class="log-entry info"><span class="timestamp">[00:00:00]</span> Web receiver initialized. Ready to connect.</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>Live Device Stream &bull; Android 12 Native WebRTC Receiver</span>
+      <span>DTLS-SRTP &bull; Zero External Tracking &bull; Explicit Consent Required</span>
+    </footer>
+  </div>
+
+  <script src="js/signaling-client.js?v=6"></script>
+  <script src="js/webrtc-receiver.js?v=6"></script>
+  <script src="js/app.js?v=6"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Live Device Stream</string>
+    <string name="title_session">Live Session Setup</string>
+    <string name="label_signaling_url">Signaling Server URL</string>
+    <string name="hint_signaling_url">ws://192.168.1.X:8443 or wss://...</string>
+    <string name="label_room_id">Room ID</string>
+    <string name="label_session_token">Pairing Code / Token</string>
+    <string name="btn_generate_new">Generate New Session</string>
+    <string name="btn_start_session">Start Live Session</string>
+    <string name="btn_stop_session">Stop Live Session</string>
+    <string name="status_idle">Ready to start session</string>
+    <string name="status_connecting">Connecting to signaling server…</string>
+    <string name="status_connected">Connected &amp; Authenticated</string>
+    <string name="status_receiver_online">Web receiver connected &amp; viewing</string>
+    <string name="status_error">Connection error</string>
+
+    <string name="notification_channel_id">live_stream_channel</string>
+    <string name="notification_channel_name">Live Device Streaming</string>
+    <string name="notification_channel_desc">Active stream session notification</string>
+    <string name="notification_title">Live Streaming Active</string>
+    <string name="notification_text">Sharing device streams with authorized receiver.</string>
+    <string name="notification_action_stop">Stop Stream</string>
+
+    <string name="perm_camera_mic_rationale">Camera and Microphone permissions are needed to stream live video and audio to your authorized browser session.</string>
+    <string name="perm_notification_rationale">Notification permission is required to display the mandatory persistent foreground service notification.</string>
+</resources>

@@ -1,0 +1,22 @@
+{
+  "name": "live-device-stream-signaling",
+  "version": "1.0.0",
+  "description": "Authenticated WebSocket signaling server for Live Device Stream",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node test/signaling.test.js"
+  },
+  "keywords": [
+    "webrtc",
+    "signaling",
+    "websocket",
+    "android",
+    "stream"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Android
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+android-app/.gradle/
+android-app/app/build/
+android-app/build/
+
+# Certificates
+*.pem
+*.key
+*.crt
+signaling-server/certs/*.pem
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
