@@ -27,7 +27,7 @@ const PORT = parseInt(process.env.PORT || '8080', 10);
 const HOST = process.env.HOST || '0.0.0.0';
 const SSL_KEY_PATH = process.env.SSL_KEY || path.join(__dirname, '../certs/key.pem');
 const SSL_CERT_PATH = process.env.SSL_CERT || path.join(__dirname, '../certs/cert.pem');
-const WEB_RECEIVER_DIR = path.resolve(__dirname, '../../web-receiver');
+const WEB_RECEIVER_DIR = process.env.WEB_RECEIVER_DIR || path.resolve(__dirname, '../../web-receiver');
 
 const roomManager = new RoomManager();
 
