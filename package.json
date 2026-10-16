@@ -1,0 +1,13 @@
+{
+  "name": "live-device-stream",
+  "version": "1.0.0",
+  "description": "WebRTC-based Android screen streaming",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build needed'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}

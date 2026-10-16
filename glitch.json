@@ -1,0 +1,21 @@
+{
+  "install": "cd signaling-server && npm install",
+  "start": "cd signaling-server && npm start",
+  "watch": {
+    "ignore": [
+      "node_modules/**",
+      ".git",
+      ".cache"
+    ],
+    "install": {
+      "include": [
+        "signaling-server/package\\.json$"
+      ]
+    },
+    "restart": {
+      "include": [
+        "signaling-server/src/.*\\.js$"
+      ]
+    }
+  }
+}
